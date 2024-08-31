@@ -1,0 +1,244 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.0 Transitional//EN">
+<html>
+  <head>
+    <meta http-equiv="CONTENT-TYPE" content="text/html;
+      charset=windows-1252">
+    <title>Steady water waves - Programs FOURIER, STOKES and CNOIDAL -
+      Homepage</title>
+    <meta name="AUTHOR" content="John Fenton">
+    <meta name="CREATED" content="20040213;10205628">
+    <meta name="CHANGEDBY" content="John Fenton">
+    <meta name="CHANGED" content="20061028;12195485">
+    <meta name="DESCRIPTION" content="What do I put here?">
+    <meta name="KEYWORDS" content="maritime engineering, coastal
+      engineering, ocean engineering">
+    <meta name="expiry-date" content="2001-12-31">
+    <meta name="maintained-by" content="John Fenton">
+    <meta name="authorised-by" content="John Fenton">
+    <meta name="last-modified" content="2001-4-23">
+    <link rel="stylesheet" type="text/css" href="../css/blue.css">
+  </head>
+  <body lang="en-AU">
+    <table width="100%" cellspacing="0" cellpadding="0" border="0">
+      <colgroup><col width="20%"> <col width="80%"> </colgroup><tbody>
+        <tr>
+          <td colspan="3" rowspan="1" style="vertical-align: top;">
+            <h1><span style="font-weight: 400;">The steadily-progressing
+                wave problem<a name="Top"></a></span></h1>
+            <h1>Solution using programs FOURIER, CNOIDAL and STOKES<br>
+            </h1>
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" style="vertical-align: top;">
+            <h2>The idealisation of a wave</h2>
+            <div style="text-align: center;"><img style="width: 499px;
+                height: 234px;" alt="One wave of a steady wave train,
+                showing dimensions, co-ordinates and velocities"
+                src="Wave.gif"><br>
+            </div>
+            <h2>Update Notes - Reverse chronological order<br>
+            </h2>
+            <p>October 2022 - Ibrahim Konuk is writing a C++ program. He
+              noted that in the C program a couple of variables defined
+              were not necessary and that for deep water waves a
+              quantity in the output in a Gnuplot comment line was not
+              defined. All corrected.<br>
+              I also modified the Gnuplot files so that the graphical
+              output mode "qt" is used, rather than "windows". For
+              screen viewing it is better<br>
+            </p>
+            <p>July 2019 - For very long waves, say 70 times the water
+              depth, the cnoidal program had problems evaluating the
+              elliptic functions in such an extreme limit. The program
+              has been modified as described in Appendix C-5 of <a
+                href="Instructions.pdf">Instructions.pdf</a>, and the
+              software simplified using accurate approximations for all
+              elliptic functions and integrals.
+            </p>
+            <p>June 2019 - I have modified the program such that
+              Fourier.exe now produces an extra results file <a
+                href="Solution-Flat.res">Solution-Flat.res</a>, which is
+              rather more easily read automatically - see #7.2 of <a
+                href="Instructions.pdf">Instructions.pdf</a>. Of course,
+              all can be accessed by downloading <a href="Fourier.zip">Fourier.zip</a>.
+            </p>
+            <p>September 2018 - I have just realised that sometime in
+              recent years I had modified the Fourier program to allow
+              for the case of infinite depth, but I had not noted this
+              on the website or in the description file <a
+                href="Instructions.pdf">Instructions.pdf</a>. </p>
+            <p>July 2015 - I have added some notes and comments to the
+              file <a href="Instructions.pdf">Instructions.pdf</a>.
+              Errors had crept into some of the figures, including the
+              incorrect dimensioning of wave height <i>H</i> on Figure
+              4-1. The corrected version of the figure is as shown
+              above. I have taken the opportunity to redefine the free
+              surface elevation eta with origin on the bed, as the
+              output from the program uses that. This required changes
+              to the presentation of some of the theory in the document,
+              but is unimportant as far as program operation is
+              concerned. I added a little section on the value of
+              gravitational acceleration <i>g</i> to use. It is more
+              whimsical than anything else, but it does point out that
+              the often-used <i>g</i> = 9.81 m/s^2 is actually not
+              correct to that accuracy for most of the world's
+              population. The changes are described in the comments
+              which are included in that file. </p>
+          </td>
+          <td rowspan="1" style=" vertical-align: top;" colspan="1">
+            <h2>Download programs and instruction manual</h2>
+            <p>There are now threeprograms that can be used. The
+              instructions file for all is <a href="Instructions.pdf">Instructions.pdf</a>,
+              which is also included in <a href="Fourier.zip">Fourier.zip</a>.<br>
+            </p>
+            <ol>
+              <li>A Fourier approximation method whose only
+                approximation lies in truncating the number of terms in
+                the approximating series: <a href="Fourier.zip">Fourier.zip</a>
+                - current version, June 2019.</li>
+              <li>An implementation of cnoidal theory, which is based on
+                series expansions in shallowness, requiring that the
+                waves be long relative to the water depth : <a
+                  href="Cnoidal.zip">Cnoidal.zip</a> (to be unpacked in
+                a sub-directory of the Fourier one). This is an
+                approximation, and not as applicable to higher waves as
+                the Fourier method. It can be used as a check on that
+                method - for waves that are not high, both should give
+                the same results.</li>
+              <li>An implementation of Stokes theory, requiring that the
+                waves be not too long relative to the water depth:&nbsp;<a
+                  href="Stokes.zip">Stokes.zip</a> (also to be unpacked
+                in a sub-directory of the Fourier one). This is also an
+                approximation, and not as applicable to higher waves as
+                the Fourier method. It can be used as a check on that
+                method - for waves that are not high, both should give
+                the same results.</li>
+            </ol>
+            <p> Questions, problems: please e-mail me here: <a
+                href="mailto:JohnDFenton@gmail.com">John Fenton</a></p>
+            <h2>Description<br>
+            </h2>
+            <p>The main theories and methods for the steady wave problem
+              which have been used are: <a
+href="../Papers/Fenton85d-A-fifth-order-Stokes-theory-for-steady-waves.pdf">Stokes
+
+
+
+
+
+
+
+
+
+
+
+
+
+                theory</a>, an explicit theory based on an assumption
+              that the waves are not very steep and which is best suited
+              to waves in deeper water; and <a
+                href="../Papers/Fenton90b-Nonlinear-wave-theories.pdf">cnoidal
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+                theory</a>, an explicit theory for waves in shallower
+              water. The accuracy of both depends on the waves not being
+              too high. In addition, both have a similar problem, that
+              in the inappropriate limits of shallower water for Stokes
+              theory and deeper water for cnoidal theory, the series
+              become slowly convergent and ultimately do not converge. </p>
+            <p>An approach which overcomes this is the Fourier
+              approximation method, which does not use series expansions
+              based on a small parameter, but obtains the solution
+              numerically. It could be described as a nonlinear spectral
+              approach, where a series is assumed, each term of which
+              satisfies the field equation, and then the coefficients
+              are found by solving a system of nonlinear equations.
+              This, originated by Chappelear in 1961, is the basis of
+              the computer program FOURIER. It has been widely used to
+              provide solutions in a number of practical and theoretical
+              applications, providing solutions for engineering and
+              geophysics. The method provides accurate solutions for
+              waves up to very close to the highest. Below is shown the
+              surface profile for a wave of length <span
+                style="font-style: italic;">L/d=50</span> and a height
+              98% of the maximum for that length - for such a long and
+              high wave (approaching a sharp crest), the method is close
+              to its limits. <br>
+              <img style="width: 715px; height: 25px;" alt="Extreme
+                wave" src="Long.gif"></p>
+            <p>The original theory and Fortran code can be found <a
+href="../Papers/Fenton88-The-numerical-solution-of-steady-water-wave-problems.pdf">here</a>,
+              or a more recent presentation <a
+                href="../Papers/Fenton99Liu-Numerical-methods-for-nonlinear-waves.pdf">here</a>.
+              The current download version <a href="Fourier.zip">Fourier</a>
+              also contains the code in the language C++. A description
+              of the theory and program inputs and outputs is given in <a
+                href="Instructions.pdf">Instructions</a>.<br>
+              A package with programs for cnoidal theory is also
+              available: <a href="Cnoidal.zip">Cnoidal.zip</a>, which
+              is also described in <a href="Instructions.pdf">Instructions</a>,
+              as is a package for Stokes theory: <a href="Stokes.zip">Stokes.zip</a>.<br>
+            </p>
+            <p>There is also a <a
+href="../Papers/Fenton95-A-numerical-cnoidal-theory-for-steady-water-waves.pdf">numerical
+
+
+
+
+
+
+
+
+
+
+
+
+
+                cnoidal theory</a> where long waves can be treated
+              without difficulty, however for wavelengths at least as
+              long as 50 times the depth, the Fourier method provides
+              good solutions.</p>
+          </td>
+        </tr>
+        <tr>
+          <td rowspan="1" colspan="3" style="vertical-align: top;">
+            <h2 style="font-weight: normal; text-align: left;">Results
+              from Fourier program shown plotted with program Gnuplot</h2>
+            <p>The output from the program is three text files which are
+              machine readable and can be used for program development
+              by others. The package also contains plotting files
+              written in the Gnuplot language (<a
+                href="http://www.gnuplot.info/">http://www.gnuplot.info/</a>)
+              which uses the output to produce figures such as these:<br>
+            </p>
+            <div style="text-align: center;"> <img style="width: 334px;
+                height: 236px;" alt="Surface profile" src="Results1.gif"><img
+                style="width: 347px; height: 244px;" alt="Velocity
+                field" src="Results2.gif"><img style="width: 315px;
+                height: 241px;" alt="Acceleration field"
+                src="Results3.gif"><br>
+            </div>
+            <p><i>Maintained and authorised by <a
+                  href="mailto:JohnDFenton@gmail.com">John Fenton</a>;
+                Last modified:&nbsp; Monday 24 July</i><i> 2019 </i><a
+                href="Fourier.html#Top">Back to Top</a><br>
+            </p>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </body>
+</html>
