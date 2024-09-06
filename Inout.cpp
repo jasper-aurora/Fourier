@@ -145,7 +145,8 @@ fprintf(file,"# %s", Title);
 fprintf(file,"\n%s\n", Method);
 fprintf(file,"\n# Height/Depth:%6.3f, %3.0lf\%% of the maximum of H/d =%6.3f for this length:",
 	z[2]/z[1],z[2]/z[1]/Highest*100., Highest);
-fprintf(file,"\n# Length/Depth:%7.2f", 2*pi/z[1]);
+// fprintf(file,"\n# Length/Depth:%7.2f", 2*pi/z[1]); // JP
+fprintf(file,"\n# Length/Depth: %7.16f", 2*pi/z[1]); // JP
 fprintf(file,"\n# Dimensionless Period T*sqrt(g/d):%7.2f", z[3]/sqrt(z[1]));
 fprintf(file,"\n# Current criterion: %s,  Dimensionless value:%6.3lf\n", Currentname, Current);
 }

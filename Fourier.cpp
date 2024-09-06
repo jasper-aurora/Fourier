@@ -140,7 +140,7 @@ Output();
 // _fcloseall(); //26.01.2019 // JP
 fflush(NULL); // JP
 
-printf("\nTouch key to continue\n\n"); // getch(); // JP
+// printf("\nTouch key to continue\n\n"); getch(); // JP
 
 printf("\nFinished\n");
 } // End main program
