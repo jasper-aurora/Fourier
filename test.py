@@ -67,13 +67,6 @@ def _dispersion_stokes(k, h, t, d, u=0, g=G):
     C2 = C0 * (2 + 7 * S**2) / (4 * (1 - S)**2)
     C4 = C0 * (4 + 32*S - 116*S**2 - 400*S**3 - 71*S**4 + 146*S**5) / (32 * (1 - S)**5)
 
-    # print(np.sqrt(k / g) * u)
-    # print(2 * np.pi / t / np.sqrt(g * k))
-    # print(C0)
-    # print((k * h / 2)**2 * C2)
-    # print((k * h / 2)**4 * C4)
-    # print()
-
     return (
         np.sqrt(k / g) * u - 2 * np.pi / t / np.sqrt(g * k) + C0 + (k * h / 2)**2 * C2 + \
         (k * h / 2)**4 * C4
@@ -98,26 +91,27 @@ def _wavelength(height, period, depth, u=0, g=G):
     L0 = G * period ** 2 / 2 / np.pi * np.tanh((2 * np.pi * np.sqrt(depth / G) / period) ** 1.5) ** (2/3)
     k0 = 2 * np.pi / L0
 
-    func = lambda k: _dispersion_cnoidal(k, height, period, depth, u, g)
-    k = optimize.newton(func, k0)
+    print(L0 / depth)
 
-    
+    func = _dispersion_stokes if L0 / depth < 10 else _dispersion_cnoidal
+    k = optimize.newton(lambda k: func(k, height, period, depth, u, g), k0)
+
     return 2 * np.pi / k
 
 
-def _wavelength(h, t, d, u=0, g=G):
-    a = 4 * np.pi**2 * d / g / t**2
-    b = a * np.sqrt(1 / np.tanh(a))
-    kd = (a + b**2 / np.cosh(b)**2) / (np.tanh(b) + b / np.cosh(b) ** 2)
-    return 2 * np.pi / kd * d
+# def _wavelength(h, t, d, u=0, g=G):
+#     a = 4 * np.pi**2 * d / g / t**2
+#     b = a * np.sqrt(1 / np.tanh(a))
+#     kd = (a + b**2 / np.cosh(b)**2) / (np.tanh(b) + b / np.cosh(b) ** 2)
+#     return 2 * np.pi / kd * d
 
 
 if __name__ == '__main__':
     height = np.arange(1, 21) # [3, 5, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25]
     depth = np.full_like(height, 30)
-    period = np.full_like(height, 25)
+    period = np.full_like(height, 10)
 
-    current = np.full_like(height, 1.5, dtype=np.float64)
+    current = np.full_like(height, 1, dtype=np.float64)
 
     length_str = ['Period' for _ in range(len(height))]
     N = np.full_like(height, 22)
@@ -168,7 +162,8 @@ if __name__ == '__main__':
             print(f'Wavelength F: {fourier_wavelength:.2f} R: {wavelength:.2f}')
             fourier_ws.append(fourier_wavelength)
             raschii_ws.append(wavelength)
-            continue
+            
+            # continue
 
             f = raschii.FentonWave(height, depth, wavelength, N, relax=relax)
             raschii_vels = f.velocity(x, z)[:, 0]
@@ -183,16 +178,16 @@ if __name__ == '__main__':
         t2 = datetime.now()
         raschii_time = (t2 - t1).total_seconds()
 
-        try:
-            fenton_vels = np.empty_like(fourier_vels, dtype=np.float64)
-            for i, zi in enumerate(z):
-                fenton_vels[i] = Fenton(length, height, depth, u, 1, zi * 2, 0, 1).run()[0]
-            fenton_converged = True
+        # try:
+        #     fenton_vels = np.empty_like(fourier_vels, dtype=np.float64)
+        #     for i, zi in enumerate(z):
+        #         fenton_vels[i] = Fenton(length, height, depth, u, 1, zi * 2, 0, 1).run()[0]
+        #     fenton_converged = True
             
-        except Exception as e:
-            print(f'(Fenton) {e}')
-            fenton_vels = np.full_like(fourier_vels, np.nan)
-            fenton_converged = False
+        # except Exception as e:
+        #     print(f'(Fenton) {e}')
+        #     fenton_vels = np.full_like(fourier_vels, np.nan)
+        #     fenton_converged = False
 
         fenton_time = (datetime.now() - t2).total_seconds()
 
@@ -202,18 +197,18 @@ if __name__ == '__main__':
 
         fourier_label = f'Fourier ({fourier_time:.2f}){" [Not converged]" if not fourier_converged else ""}'
         raschii_label = f'Raschii ({raschii_time:.2f}){" [Not converged]" if not raschii_converged else ""}'
-        fenton_label = f'Fenton ({fenton_time:.2f}){" [Not converged]" if not fenton_converged else ""}'
+        # fenton_label = f'Fenton ({fenton_time:.2f}){" [Not converged]" if not fenton_converged else ""}'
         
         plt.scatter(z, fourier_vels, label=fourier_label, color='red', alpha=0.5, marker='x')
         plt.scatter(z, raschii_vels, label=raschii_label, color='blue', alpha=0.5, marker='o')
-        plt.scatter(z, fenton_vels, label=fenton_label, color='green', alpha=0.5, marker='^')
+        # plt.scatter(z, fenton_vels, label=fenton_label, color='green', alpha=0.5, marker='^')
 
         plt.xlabel('Depth (m)')
         plt.ylabel('Speed (m/s)')
         plt.title(title)
         plt.legend()
 
-        plt.savefig(f'figs/{title}.png')
+        plt.savefig(f'figs_new/{title}.png')
         plt.close()
 
     xs = np.arange(len(fourier_ws))
@@ -224,4 +219,11 @@ if __name__ == '__main__':
 
         
 
+'''
+T 0 - 20s,  main   5 - 15s
+H 0 - 25m,  main  10 - 15m
+D 0 - 200m, main  15 - 50m
+U 0 - 5m/s, main 0.2 - 1m/s
 
+R 0 - 0.5m, 0, 0.1, 0.2, 0.3, 0.4, 0.5
+'''

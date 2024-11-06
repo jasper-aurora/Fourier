@@ -421,52 +421,36 @@ class Fenton:
         return Umax, r_error
 
 if __name__ == "__main__":
-    Tmax = 9
-    Hmax = 20
-    Depth = 30
+    Tmax = 12
+    Hmax = 21
+    Depth = 40
     Uc = 0
-    # z_ref = 1
-    D = 0.0705*2
+    z_ref = 1
+    D = 0.1
     Option = 0
 
     import matplotlib.pyplot as plt
 
     def blimit(Tmax, Depth, g=9.81):
-
-        # C205 method
         varpi = (4 * np.pi ** 2 * Depth) / (g * Tmax ** 2)
         fvarpi = 1 + 0.666 * varpi + 0.445 * varpi ** 2 - 0.105 * varpi ** 3 + 0.272 * varpi ** 4
         L = Tmax * (g * Depth) ** 0.5 * (fvarpi / (1 + varpi * fvarpi)) ** 0.5
-        
         blimit = (((0.141063 * (L / Depth)) + (0.0095721 * (L / Depth) ** 2) + (0.007789 * (L / Depth) ** 3)) / (1 + (0.078834 * (L / Depth)) + (0.0317567 * (L / Depth) ** 2) + (0.0093407 * (L / Depth) ** 3)))
         return L, blimit
     
-    # lambda0 = 9.81 * Tmax ** 2 / (2 * np.pi)
-    Xi = 0 # / (np.sqrt(blimit * Depth / lambda0))
-    
     L, b = blimit(Tmax, Depth)
-    print(f'Blimit: {b:.4f} ({b * Depth:.2f}m)')
-    print('Wavelength:', L)
+    print(f'Blimit: {b:.2f} ({b * Depth:.2f}m)')
+    print(f'Wavelength: {L:.2f}m')
 
-    exit()
+    if Hmax < b:
+        output = Fenton(Tmax, Hmax, Depth, Uc, z_ref, D, Option, b).run()
+        print(f'Flow: {output[0]:.2f}m/s')
 
-    for H in np.arange(14, 26):
-        print(H)
+    else:
+        print('Exceeded breaking limit')
 
-        zs = np.arange(2, 40, 2)
 
-        us = np.empty_like(zs, dtype=np.float64)
-        
-        for i, z in enumerate(zs):
-            D, z = z, 1
-            Hmax = H
-            output = Fenton(Tmax, Hmax, Depth, Uc, z, D, Option, b).run()
-            us[i] = output[0]
-            # print(z, us[i])
 
-        plt.figure()
-        plt.scatter(zs / 2, us)
-        plt.savefig(f'figs/{H}.png')
         
 
 
