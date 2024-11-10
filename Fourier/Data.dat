@@ -1,9 +1,9 @@
 JP Test Wave
-0.18  H/d
+0.144  H/d
 Period  Measure of length: "Wavelength" or "Period"
-5.637765514811697  Value of that length: L/d or T(g/d)^1/2 respectively
+4.650919263973521  Value of that length: L/d or T(g/d)^1/2 respectively
 1  Current criterion (1 or 2)
-0.0009578262852211513  Current magnitude, (dimensionless) ubar/(gd)^1/2
+0.0006772854614785962  Current magnitude, (dimensionless) ubar/(gd)^1/2
 22 Number of Fourier components or Order of Stokes/cnoidal theory
 1 Number of height steps to reach H/d
 FINISH
